@@ -1,0 +1,1 @@
+window.onload=function(){var e=document.querySelector(".burger-menu__checkbox"),o=document.querySelector(".header__logo"),n=document.querySelector(".header__lang-list"),t=document.querySelector(".header__nav");e.addEventListener("change",function(){o.classList.toggle("display-none"),n.classList.toggle("display-none"),t.classList.toggle("display-on")})};
