@@ -280,7 +280,6 @@ p {
   .feedback__button {
     margin-top: 36px;
     flex-basis: 345px;
-    margin-right: 40px;
     min-width: 345px;
     order: 3;
   }
@@ -292,6 +291,7 @@ p {
   }
   .feedback__checkbox-block {
     flex-basis: 345px;
+    margin-right: 20px;
   }
 }
 .links {
@@ -371,6 +371,9 @@ p {
   width: 308px;
   padding: 41px 0 43px 21px;
   position: absolute;
+}
+.main-page__feedback {
+  padding-top: 108px;
 }
 .main-page__bgi {
   bottom: 15px;
@@ -469,4 +472,9 @@ p {
 .stocks__bgi {
   bottom: -119px;
   left: -150px;
+}
+@media screen and (max-width: 1440px) {
+  .stocks__bgi {
+    left: -550px;
+  }
 }

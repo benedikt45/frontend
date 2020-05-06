@@ -195,7 +195,6 @@ p {
     &__button {
       margin-top: 36px;
       flex-basis: 345px;
-      margin-right: 40px;
       min-width: 345px;
       order: 3;
     }
@@ -209,6 +208,7 @@ p {
 
     &__checkbox-block {
       flex-basis: 345px;
+      margin-right: 20px;
     }
   }
 }
@@ -302,6 +302,10 @@ p {
     width: 308px;
     padding: 41px 0 43px 21px;
     position: absolute;
+  }
+
+  &__feedback {
+    padding-top: 108px;
   }
 
   &__bgi {
@@ -413,5 +417,10 @@ p {
   &__bgi {
     bottom: -119px;
     left: -150px;
+  }
+  @media screen and (max-width: 1440px) {
+    &__bgi {
+      left: -550px;
+    }
   }
 }
