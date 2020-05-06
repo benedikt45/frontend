@@ -187,16 +187,28 @@ p {
     font-size: 17px;
     line-height: 20px;
   }
+
+  &__checkbox-block {
+    padding-top: 36px;
+  }
   @media screen and (max-width: 1440px) {
     &__button {
       margin-top: 36px;
+      flex-basis: 345px;
+      margin-right: 40px;
+      min-width: 345px;
+      order: 3;
     }
 
     &__input {
       width: calc(50%-40px);
       flex-basis: auto;
       max-width: inherit;
+      flex-basis: 345px;
+    }
 
+    &__checkbox-block {
+      flex-basis: 345px;
     }
   }
 }
@@ -267,14 +279,6 @@ p {
     margin-top: 70px;
   }
 
-  &__feedback {
-    padding-top: 108px;
-  }
-
-  &__checkbox-block {
-    padding-top: 36px;
-  }
-
   &__links {
     border-top: 2px solid @color_light_blue;
     margin-top: 102px;
@@ -302,20 +306,25 @@ p {
 
   &__bgi {
     bottom: 15px;
-    left: 40px;
+    right: -180px;
+  }
+  @media screen and (max-width: 1440px) {
+    &__bgi {
+      right: -480px;
+    }
   }
 }
 
 .list {
   list-style-image: url("../img/list.png");
   padding-top: 40px;
-  padding-left: 74px;
 
   &__item {
     font-weight: 500;
     font-size: 18px;
     letter-spacing: 0.03em;
     margin-bottom: 20px;
+    line-height: 20px;
   }
 }
 
@@ -346,10 +355,35 @@ p {
     font-weight: bold;
   }
 
+  &__list {
+    margin-left: 74px;
+  }
+
   &__bgi {
     position: absolute;
     right: -180px;
     bottom: -90px;
+  }
+  @media screen and (max-width: 1440px) {
+    &__like-h1 {
+      max-width: 555px;
+    }
+
+    &__text {
+      max-width: 511px;
+    }
+
+    &__list {
+      margin-left: 40px;
+    }
+
+    &__left-wrap {
+      max-width: 555px;
+    }
+
+    &__bgi {
+      right: -480px;
+    }
   }
 }
 

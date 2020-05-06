@@ -1,13 +1,13 @@
 
 window.onload = function() {
-  function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+  function getRandomInt(max, min = 0) {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
   let blocks = document.querySelectorAll('.block');
 
   for (let i of blocks) {
-    i.style.left = getRandomInt(500) + 'px';
+    i.style.right = getRandomInt(330) + 'px';
     i.style.bottom = getRandomInt(680) + 'px';
   }
 }
