@@ -6,45 +6,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://use.fontawesome.com/2bc20307e8.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <section class="main-page">
-    <div class="wrapper">
-      <header class="header">
-        <div class="logo header__logo"><img src="img/logo.png" alt="logo" class="logo__img"></div>
-        <nav class="header__nav">
-          <ul class="header__menu menu">
-            <li class="menu__item"><a href="#" class="menu__link">Главная</a></li>
-            <li class="menu__item"><a href="#" class="menu__link">О сервисе</a></li>
-            <li class="menu__item"><a href="#" class="menu__link">Тарифы</a></li>
-            <li class="menu__item"><a href="#" class="menu__link">Контакты</a></li>
-          </ul>
-        </nav>
-      </header>
 
-      <div class="main-page__under-header-block">
-        INTEGRATIONS
+  <div class="wrapper">
+    <header class="header">
+      <div class="logo header__logo"><img src="img/logo.png" alt="logo" class="logo__img"></div>
+      <nav class="header__nav">
+        <ul class="header__menu menu">
+          <li class="menu__item"><a href="#" class="menu__link">Главная</a></li>
+          <li class="menu__item"><a href="#" class="menu__link">О сервисе</a></li>
+          <li class="menu__item"><a href="#" class="menu__link">Тарифы</a></li>
+          <li class="menu__item"><a href="#" class="menu__link">Контакты</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="main-page">
+      <div class="main-page__right-wrap">
+        <div class="main-page__under-header-block">
+          INTEGRATIONS
+        </div>
+        <div class="main-page__text">
+          <img src="img/Group-1.png" alt="ozon" class="main-page__img">
+          <div class="main-page__like-h2">Готовая интеграция с <span class="color_ozon">ozon</span>
+            через приложение <span class="color_violet">Topseller</span>
+            для системы <span class="color_dark_blue">МойСклад</span> </div>
+        </div>
+        <form class="main-page__feedback feedback" action="#">
+          <input type="tel" placeholder="Номер телефона" name="phone" class="feedback__input">
+          <input type="email" placeholder="Email" name="name" class="feedback__input">
+          <div type="submit" name="button" class="feedback__button button button_green">Подробнее</div>
+          <div class="main-page__checkbox-block checkbox-block">
+            <input type="checkbox" id="checkbox1" class="checkbox-block__checkbox">
+            <label for="checkbox1" class="checkbox-block__label">Даю согласие на обработку персональных данных</label>
+          </div>
+        </form>
+        <div class="main-page__links links">
+          <div class="links__price button button_blue">Прайс</div>
+          <div class="links__instruction button button_blue">Инструкция по установке</div>
+          <div class="links__telegram"><i class="fa fa-telegram" aria-hidden="true"></i></div>
+        </div>
       </div>
-      <div class="main-page__text">
-      <img src="img/Group-1.png" alt="ozon" class="main-page__img">
-        <div class="main-page__like-h1">Готовая интеграция с <span class="color_ozon">ozon</span>
-          через приложение <span class="color_violet">Topseller</span>
-          для системы <span class="color_dark_blue">МойСклад</span> </div>
+      <div class="main-page__left-wrap">
+        <div class="main-page__block block">
+          Отчеты и аналитика
+        </div>
+        <div class="main-page__block block">
+          Отчеты и аналитика
+        </div>
+        <div class="main-page__block block">
+          Отчеты и аналитика
+        </div>
+        <div class="main-page__block block">
+          Отчеты и аналитика
+        </div>
+        <div class="main-page__block block">
+          Отчеты и аналитика
+        </div>
+        <div class="main-page__block block">
+          Отчеты и аналитика
+        </div>
+        <img src="img/bgi-1.png" alt="pic" class="main-page__bgi bgi">
       </div>
-      <form class="main-page__feedback feedback" action="#">
-        <input type="tel" placeholder="Номер телефона" name="phone" class="feedback__input">
-        <input type="email" placeholder="Email" name="name" class="feedback__input">
-        <div type="submit" name="button" class="feedback__button">Подробнее</div>
-      </form>
-      <div class="main-page__checkbox-block checkbox-block">
-        <input type="checkbox" id="checkbox1" class="checkbox-block__checkbox">
-        <label for="checkbox1" class="checkbox-block__label">Даю согласие на обработку персональных данных</label>
+    </section>
+    <section class="orders">
+      <div class="orders__left-wrap">
+        <div class="orders__like-h1">
+          Получение и&nbsp;сборка заказов
+        </div>
+        <p class="orders__text">Новые заказы на&nbsp;Озон будут автоматически поступать в&nbsp;систему МойСклад
+          с&nbsp;учетом комиссии Озон. Поддерживается мультиаккаунт&nbsp;&mdash; Вы&nbsp;сможете настроить
+          интеграцию с&nbsp;неограниченным количеством аккаунтов на&nbsp;Озон </p>
+        <div class="orders__list-header">Через удобные инструменты фильтров МоегоСклада Вы сможете:</div>
+        <ul class="orders__list list">
+          <li class="list__item">Просматривать заказы в разрезе проекта, например FBS или FBO</li>
+          <li class="list__item">Просматривать заказы определенного товара или группы товаров </li>
+          <li class="list__item">Массово собирать заказы</li>
+          <li class="list__item">Массово менять статусы заказов</li>
+          <li class="list__item">Получать PUSH уведомления в мобильное приложение МойСклад </li>
+          <li class="list__item">Оперативно отслеживать выручку и прибыль по заказам</li>
+        </ul>
+        <img src="img/bgi-2.png" alt="pic" class="orders__bgi bgi">
       </div>
-    </div>
-  </section>
+    </section>
+    <section class="stocks">
+      <div class="stocks__right-wrap">
+        <img src="img/bgi-3.png" alt="pic" class="stocks__bgi bgi">
+      </div>
+
+      <div class="stocks__left-wrap">
+        <div class="stocks__like-h1">
+          Синхронизация остатков
+        </div>
+        <p class="stocks__text">Ваши остатки товаров в&nbsp;системе МойСклад будут автоматически синхронизироваться
+          с&nbsp;Озон. Синхронизация проходит каждые 30&nbsp;минут. Если остаток товара&nbsp;0, то&nbsp;товар будет
+          автоматически скрыт
+          на&nbsp;Озон.
+          <br><br>
+          После поступления товаров на&nbsp;остатки в&nbsp;МоемСкладе они автоматически появятся на&nbsp;Озон.
+          Функция позволяет автоматизировать проставление остатков в&nbsp;личном кабинете Озон и&nbsp;не&nbsp;допустить
+          заказа товаров, которых нет&nbsp;в наличии на&nbsp;складе.</p>
+      </div>
+    </section>
+  </div>
+
 
   <script src="js/all.js"></script>
 </body>

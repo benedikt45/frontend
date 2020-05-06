@@ -19,7 +19,7 @@ const conf = {
   src: './src'
 };
 
-let isDev = false;
+let isDev = true;
 let isProd = !isDev;
 
 let webConfig = {
@@ -30,7 +30,7 @@ let webConfig = {
     rules: [{
       test: /\.js$/,
       loader: 'babel-loader'
-      // exclude: '/node_modules/'
+      //exclude: '/node_modules/'
     }]
   },
   mode: isDev ? 'development' : 'production',
@@ -89,6 +89,7 @@ module.exports.watch = function() {
     }
   });
   watch(conf.src + '/css/**/*.css', css);
+  watch(conf.src + '/js/**/*.js', js);
   watch(conf.src + '/less/**/style.less', lessToCss);
   watch(conf.src + '/img/**/*.img', img);
   watch(conf.src + '/*.html', html);
