@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="manager">
+      Состояние задач
+      <ul class="manager__menu">
+        <li class="manager__item">
+          В работе: 1;
+        </li>
+        <li class="manager__item">
+          Выполненных: 0;
+        </li>
+        <li class="manager__item">
+          Удаленных: 0;
+        </li>
+      </ul>
+    </aside>
+    <h1 style="text-align: center">To Do менеджер</h1>
+    <div class="header">
+      <input type="text" name="todo_comment" placeholder="Заголовок (если нужно)" class="header__todo-comment form-control">
+      <textarea class="header__todo-input form-control" aria-label="With textarea" placeholder="Введите текст задачи"></textarea>
+      <div class="header__button-block buttons">
+        <button type="button" class="btn btn-success buttons__button buttons__button_add">Добавить</button>
+        <button type="button" class="btn btn-danger buttons__button buttons__button_clear">Очистить</button>
+      </div>
+    </div>
+    <div class="todo-list">
+      <div class="todo-block todo-list__todo-block">
+        <span class="todo-block__title">Новая задача</span>
+        <p class="todo-block__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam natus error nostrum officiis molestiae recusandae consequuntur, illo laborum, voluptas, laudantium vero odit tempora velit maiores magni. Fugit,
+          magnam molestiae dolorum.</p>
+        <textarea class="form-control non-visible todo-block__edit" aria-label="With textarea"></textarea>
+        <div class="todo-block__buttons">
+          <button type="button" class="btn btn-success todo-block__button todo-block__button_done">Выполнено</button>
+          <button type="button" class="btn btn-danger todo-block__button todo-block__button_delete">Удалить</button>
+          <button type="button" class="btn btn-warning todo-block__button todo-block__button_correct">Редактировать</button>
+          <div class="todo-block__edit-wrapper non-visible">
+            <div class="todo-block__edit-block">
+              <button type="button" class="btn btn-success todo-block__edit-button todo-block__button_save-edit">Save</button>
+              <button type="button" class="btn btn-danger todo-block__edit-button todo-block__button_cancle-edit">Cancle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/all.js">
+
+  </script>
+</body>
+
+</html>

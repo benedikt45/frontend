@@ -19,7 +19,7 @@ const conf = {
   src: './src'
 };
 
-let isDev = false;
+let isDev = true;
 let isProd = !isDev;
 
 let webConfig = {
@@ -41,6 +41,12 @@ let webConfig = {
 
 function lessToCss(cb) {
   return src(conf.src + '/less/**/style.less')
+    .pipe(less({
+      paths: [
+        '.',
+        './node_modules/bootstrap-less'
+      ]
+    }))
     .pipe(less())
     .pipe(dest(conf.src + '/css'));
 }
@@ -88,12 +94,12 @@ module.exports.watch = function() {
       baseDir: conf.dest + '/'
     }
   });
-  watch(conf.src + '/js/main.js', js);
   watch(conf.src + '/css/**/*.css', css);
+  watch(conf.src + '/*.html', browserSync.reload);
   watch(conf.src + '/less/**/style.less', lessToCss);
   watch(conf.src + '/img/**/*.img', img);
   watch(conf.src + '/*.html', html);
-  watch(conf.src + '/*.html', browserSync.reload);
+  watch(conf.src + '/js/main.js', js);
 }
 
 module.exports.build = series(
