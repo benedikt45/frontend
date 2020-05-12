@@ -19,12 +19,15 @@ class Timer {
 
   tick() {
     this.time--;
-    console.log(this.time)
   }
 
   runTimer() {
-    setInterval(() => {
+    let timeFunc = setInterval(() => {
       this.tick();
+      this.el.html(this.time);
+      if (this.time = 50) {
+        clearInterval(timeFunc);
+      }
     }, 1000);
   }
 
@@ -134,8 +137,6 @@ function addClickToBlock() {
     renderManager()
   });
 
-  let a = new Timer(60);
-  // a.runTimer();
 };
 
 $('.buttons__button_add').click(function() {
@@ -164,9 +165,11 @@ $('.buttons__button_add').click(function() {
       </div>
     </div>
   </div>`);
+
   $('.todo-list').prepend(blockReturn);
 
-  let timer = new Timer(60, blockReturn.find('todo-block__timestamp'));
+
+  let timer = new Timer(60, blockReturn.find('.todo-block__timestamp'));
   timer.runTimer();
 
   fadeIn(blockReturn);
