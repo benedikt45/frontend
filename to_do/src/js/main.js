@@ -1,4 +1,5 @@
 import $ from "jquery";
+//const $ = require('jquery');
 
 let text = $('.header__todo-input');
 let comment = $('.header__todo-comment');
@@ -10,56 +11,87 @@ let manager = {
 
 $(document).ready(addClickToBlock);
 
-$('.todo-list').on('click', '.todo-block__button_save-edit', function() {
-  let edit = $(this).closest('.todo-list__todo-block').find('.todo-block__edit');
-  let text = $(this).closest('.todo-list__todo-block').find('.todo-block__text');
-  let buttonDone = $(this).closest('.todo-block__buttons').find('.todo-block__button_done');
-  let buttonDel = $(this).closest('.todo-block__buttons').find('.todo-block__button_delete');
-  let groupEdit = $(this).closest('.todo-block__buttons').find('.todo-block__edit-wrapper');
-  let buttonCorrect = $(this).closest('.todo-block__buttons').find('.todo-block__button_correct');
+class Timer {
+  constructor(timeFrom, el) {
+    this.time = timeFrom;
+    this.el = el;
+  }
 
-  buttonCorrect.toggleClass('non-visible');
-  groupEdit.toggleClass('non-visible');
-  text.toggleClass('non-visible');
-  edit.toggleClass('non-visible');
-  text.html(edit.val());
-  buttonDone.attr('disabled', null);
-  buttonDel.attr('disabled', null);
+  tick() {
+    this.time--;
+    console.log(this.time)
+  }
+
+  runTimer() {
+    setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+
+  returnTime() {
+    return this.time;
+  }
+}
+
+$('.todo-list').on('click', '.todo-block__button_save-edit', function() {
+  renderButtons(this, {
+    'changeEl': 'text',
+    'blockValue': null
+  });
 });
 
 $('.todo-list').on('click', '.todo-block__button_cancle-edit', function() {
-  let edit = $(this).closest('.todo-list__todo-block').find('.todo-block__edit');
-  let text = $(this).closest('.todo-list__todo-block').find('.todo-block__text');
-  let buttonDone = $(this).closest('.todo-block__buttons').find('.todo-block__button_done');
-  let buttonDel = $(this).closest('.todo-block__buttons').find('.todo-block__button_delete');
-  let groupEdit = $(this).closest('.todo-block__buttons').find('.todo-block__edit-wrapper');
-  let buttonCorrect = $(this).closest('.todo-block__buttons').find('.todo-block__button_correct');
-
-  groupEdit.toggleClass('non-visible');
-  text.toggleClass('non-visible');
-  buttonCorrect.toggleClass('non-visible');
-  edit.toggleClass('non-visible');
-  buttonDone.attr('disabled', null);
-  buttonDel.attr('disabled', null);
+  renderButtons(this, {
+    'blockValue': null
+  });
 });
 
 $('.todo-list').on('click', '.todo-block__button_correct', function() {
-  let text = $(this).closest('.todo-list__todo-block').find('.todo-block__text');
-  let edit = $(this).closest('.todo-list__todo-block').find('.todo-block__edit');
-  let buttonDone = $(this).closest('.todo-block__buttons').find('.todo-block__button_done');
-  let buttonDel = $(this).closest('.todo-block__buttons').find('.todo-block__button_delete');
-  let groupEdit = $(this).closest('.todo-block__buttons').find('.todo-block__edit-wrapper');
-
-  text.toggleClass('non-visible');
-  edit.toggleClass('non-visible');
-  $(this).toggleClass('non-visible');
-  groupEdit.toggleClass('non-visible');
-  edit.val(text.html());
-  buttonDone.attr('disabled', '');
-  buttonDel.attr('disabled', '');
+  renderButtons(this, {
+    'changeEl': 'edit',
+    'blockValue': ''
+  });
 });
 
-function render(callback) {
+function fadeOut(el) {
+  let handler = function() {
+    el.addClass('non-visible');
+    el.remove();
+    el.removeClass('fade-leave-active');
+    el.removeClass('fade-leave-to');
+    el.off('transitionend', handler);
+  };
+
+  el.addClass('fade-leave');
+
+  renderAnim(function() {
+    el.addClass('fade-leave-active');
+    el.addClass('fade-leave-to');
+    el.removeClass('fade-leave');
+  });
+
+  el.on('transitionend', handler);
+}
+
+function fadeIn(el) {
+  let handler = function() {
+    el.removeClass('fade-enter-active');
+    el.removeClass('fade-enter-to');
+    el.off('transitionend', handler);
+  };
+
+  el.addClass('fade-enter');
+
+  renderAnim(function() {
+    el.addClass('fade-enter-active');
+    el.addClass('fade-enter-to');
+    el.removeClass('fade-enter');
+  });
+
+  el.on('transitionend', handler);
+}
+
+function renderAnim(callback) {
   window.requestAnimationFrame(function() {
     window.requestAnimationFrame(function() {
       callback();
@@ -67,27 +99,28 @@ function render(callback) {
   });
 }
 
+function renderButtons(context, changeObj) {
+  let editArea = $(context).closest('.todo-list__todo-block').find('.todo-block__edit');
+  let textArea = $(context).closest('.todo-list__todo-block').find('.todo-block__text');
+  $(context).closest('.todo-block__buttons').find('.todo-block__button_done').attr('disabled', changeObj.blockValue);
+  $(context).closest('.todo-block__buttons').find('.todo-block__button_delete').attr('disabled', changeObj.blockValue);
+  $(context).closest('.todo-block__buttons').find('.todo-block__edit-wrapper').toggleClass('non-visible');
+  $(context).closest('.todo-block__buttons').find('.todo-block__button_correct').toggleClass('non-visible');
+
+  editArea.toggleClass('non-visible');
+  textArea.toggleClass('non-visible');
+
+  if (changeObj.changeEl == 'edit') {
+    editArea.val(textArea.html());
+  } else if (changeObj.changeEl == 'text') {
+    textArea.html(editArea.val());
+  }
+}
+
 function addClickToBlock() {
   $('.todo-list').on('click', '.todo-block__button_delete', function() {
-    let block = $(this).closest('.todo-block');
 
-    let handler = function() {
-      block.addClass('non-visible');
-      block.remove();
-      block.removeClass('fade-leave-active');
-      block.removeClass('fade-leave-to');
-      block.off('transitionend', handler);
-    };
-
-    block.addClass('fade-leave');
-
-    render(function() {
-      block.addClass('fade-leave-active');
-      block.addClass('fade-leave-to');
-      block.removeClass('fade-leave');
-    });
-
-    block.on('transitionend', handler);
+    fadeOut($(this).closest('.todo-block'));
 
     manager.inWork--;
     manager.delete++;
@@ -100,6 +133,9 @@ function addClickToBlock() {
     manager.completed++;
     renderManager()
   });
+
+  let a = new Timer(60);
+  // a.runTimer();
 };
 
 $('.buttons__button_add').click(function() {
@@ -111,7 +147,10 @@ $('.buttons__button_add').click(function() {
     "class": "todo-block todo-list__todo-block"
   });
 
-  blockReturn.html(`<span class="todo-block__title">${comment.val()}</span>
+  blockReturn.html(`<div class="todo-block__header">
+    <span class="todo-block__title">${comment.val()}</span>
+    <span class="todo-block__timestamp">15:46</span>
+  </div>
   <p class="todo-block__text">${text.val()}</p>
   <textarea class="form-control non-visible todo-block__edit" aria-label="With textarea"></textarea>
   <div class="todo-block__buttons">
@@ -126,22 +165,11 @@ $('.buttons__button_add').click(function() {
     </div>
   </div>`);
   $('.todo-list').prepend(blockReturn);
-  let handler = function() {
-    blockReturn.removeClass('fade-enter-active');
-    blockReturn.removeClass('fade-enter-to');
-    blockReturn.off('transitionend', handler);
-  };
 
-  blockReturn.addClass('fade-enter');
+  let timer = new Timer(60, blockReturn.find('todo-block__timestamp'));
+  timer.runTimer();
 
-  render(function() {
-    blockReturn.addClass('fade-enter-active');
-    blockReturn.addClass('fade-enter-to');
-    blockReturn.removeClass('fade-enter');
-  });
-
-  blockReturn.on('transitionend', handler);
-
+  fadeIn(blockReturn);
 
   text.val('');
   comment.val('');

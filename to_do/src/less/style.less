@@ -1,6 +1,6 @@
 // "out": "../css/style.css", "compress": true
-//@import "./node_modules/reset-css/less/reset";
-@import "flex-grid.less";
+@import "reset-css/less/reset";
+@import "flex-grid";
 @import "bootstrap/index";
 
 .wrapper {
@@ -44,10 +44,23 @@
 .todo-block {
   margin: 40px 20px;
 
+  &__header {
+    .row-flex();
+    margin-bottom: 20px;
+    justify-content: space-between;
+  }
+
+  &__timestamp {
+    .col();
+    .size(4);
+    text-align: right;
+  }
+
   &__title {
+    .col();
+    .size(4);
     display: block;
     text-align: left;
-    margin-bottom: 20px;
     font-weight: bold;
     font-size: 1.2em;
   }
