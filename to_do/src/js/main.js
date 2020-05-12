@@ -25,7 +25,7 @@ class Timer {
     let timeFunc = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time = 50) {
+      if (this.time = 0) {
         clearInterval(timeFunc);
       }
     }, 1000);
@@ -54,6 +54,10 @@ $('.todo-list').on('click', '.todo-block__button_correct', function() {
     'changeEl': 'edit',
     'blockValue': ''
   });
+});
+
+$('.todo-list').on('click', '.todo-block__paused', function(e) {
+  $(this).closest('.todo-block__header').find('.todo-block__paused-text').toggleClass('non-visible')
 });
 
 function fadeOut(el) {
@@ -150,7 +154,8 @@ $('.buttons__button_add').click(function() {
 
   blockReturn.html(`<div class="todo-block__header">
     <span class="todo-block__title">${comment.val()}</span>
-    <span class="todo-block__timestamp">15:46</span>
+    <span class="todo-block__timestamp">15:46 <span class="todo-block__paused-text non-visible">Paused</span></span>
+    <span class="todo-block__paused"></span>
   </div>
   <p class="todo-block__text">${text.val()}</p>
   <textarea class="form-control non-visible todo-block__edit" aria-label="With textarea"></textarea>
@@ -167,7 +172,6 @@ $('.buttons__button_add').click(function() {
   </div>`);
 
   $('.todo-list').prepend(blockReturn);
-
 
   let timer = new Timer(60, blockReturn.find('.todo-block__timestamp'));
   timer.runTimer();

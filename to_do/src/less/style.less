@@ -54,6 +54,7 @@
     .col();
     .size(4);
     text-align: right;
+    position: relative;
   }
 
   &__title {
@@ -63,6 +64,37 @@
     text-align: left;
     font-weight: bold;
     font-size: 1.2em;
+  }
+
+  &__paused-text {
+    position: absolute;
+    font-weight: bold;
+    left: -70px;
+    opacity: 0.5;
+  }
+
+  &__paused {
+    flex-basis: 8px;
+    position: relative;
+    cursor: pointer;
+
+    &::after,
+    &::before {
+      position: absolute;
+      height: 17px;
+      display: block;
+      content: "";
+      background-color: #d9534f;
+      width: 32%;
+    }
+
+    &::after {
+      left: 0;
+    }
+
+    &::before {
+      left: 8px;
+    }
   }
 
   &__buttons {

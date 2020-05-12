@@ -6863,6 +6863,7 @@ button.close {
   margin-right: 15px;
   width: calc(33.33333333% - 30px);
   text-align: right;
+  position: relative;
 }
 .todo-block__title {
   box-sizing: border-box;
@@ -6874,6 +6875,32 @@ button.close {
   text-align: left;
   font-weight: bold;
   font-size: 1.2em;
+}
+.todo-block__paused-text {
+  position: absolute;
+  font-weight: bold;
+  left: -70px;
+  opacity: 0.5;
+}
+.todo-block__paused {
+  flex-basis: 8px;
+  position: relative;
+  cursor: pointer;
+}
+.todo-block__paused::after,
+.todo-block__paused::before {
+  position: absolute;
+  height: 17px;
+  display: block;
+  content: "";
+  background-color: #d9534f;
+  width: 32%;
+}
+.todo-block__paused::after {
+  left: 0;
+}
+.todo-block__paused::before {
+  left: 8px;
 }
 .todo-block__buttons {
   display: flex;
