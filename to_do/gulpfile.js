@@ -10,6 +10,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
 const uglify = require('gulp-uglify');
 const less = require('gulp-less');
+const sass = require('gulp-sass');
 const del = require('del');
 const browserSync = require('browser-sync').create();
 const webpack = require('webpack-stream');
@@ -40,19 +41,26 @@ let webConfig = {
 
 
 function lessToCss(cb) {
-  return src(conf.src + '/less/**/style.less')
-    .pipe(less({
-      paths: [
-        '.',
-        './node_modules/bootstrap-less'
-      ]
-    }))
+  return src(conf.src + '/less/**/styleLess.less')
+    // .pipe(less({
+    //   paths: [
+    //     '.',
+    //     './node_modules/bootstrap-less'
+    //   ]
+    // }))
     .pipe(less())
     .pipe(dest(conf.src + '/css'));
 }
 
+function scssToCss(cb) {
+  return src(conf.src + '/scss/**/styleScss.scss')
+    .pipe(sass())
+    .pipe(dest(conf.src + '/css'));
+}
+
 function css(cb) {
-  return src(conf.src + '/css/**/*.css')
+  // return src(conf.src + '/css/**/*.css')
+  return src([conf.src + '/css/styleScss.css', conf.src + '/css/styleLess.css'])
     .pipe(concat('style.css'))
     .pipe(autoprefixer({
       cascade: false
@@ -86,7 +94,7 @@ function clean() {
   return del([conf.dest + '/*']);
 }
 
-module.exports.js = js;
+//module.exports.sass = scssToCss;
 
 module.exports.watch = function() {
   browserSync.init({
@@ -94,9 +102,10 @@ module.exports.watch = function() {
       baseDir: conf.dest + '/'
     }
   });
+  watch(conf.src + '/scss/**/styleScss.scss', scssToCss);
   watch(conf.src + '/css/**/*.css', css);
   watch(conf.src + '/*.html', browserSync.reload);
-  watch(conf.src + '/less/**/style.less', lessToCss);
+  watch(conf.src + '/less/**/styleLess.less', lessToCss);
   watch(conf.src + '/img/**/*.img', img);
   watch(conf.src + '/*.html', html);
   watch(conf.src + '/js/main.js', js);
@@ -104,7 +113,10 @@ module.exports.watch = function() {
 
 module.exports.build = series(
   clean,
-  lessToCss,
+  parallel(
+    scssToCss,
+    lessToCss
+  ),
   parallel(
     css,
     js,

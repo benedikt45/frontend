@@ -15,6 +15,8 @@ class Timer {
   constructor(timeFrom, el) {
     this.time = timeFrom;
     this.el = el;
+    this.startDate = timeFrom;
+    this.timerId = timeFrom;
   }
 
   tick() {
@@ -22,14 +24,24 @@ class Timer {
   }
 
   runTimer() {
-    let timeFunc = setInterval(() => {
+    this.startDate = Date.now();
+    this.timerId = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time = 0) {
-        clearInterval(timeFunc);
+      if (this.time == 0) {
+        this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
+        this.el.html('Time is off');
+        this.el.toggleClass('time-is-off');
+        clearInterval(this.timerId);
+        this.el.closest('.todo-list').prepend(this.el.closest('.todo-list__todo-block').detach());
       }
     }, 1000);
   }
+
+  pauseTimer() {
+    clearInterval(this.timerId);
+  }
+
 
   returnTime() {
     return this.time;
@@ -149,14 +161,15 @@ $('.buttons__button_add').click(function() {
     return;
   }
   let blockReturn = $('<div></div>', {
-    "class": "todo-block todo-list__todo-block"
+    "class": "todo-block todo-list__todo-block card"
   });
 
-  blockReturn.html(`<div class="todo-block__header">
+  blockReturn.html(`<div class="todo-block__header card-header">
     <span class="todo-block__title">${comment.val()}</span>
-    <span class="todo-block__timestamp">15:46 <span class="todo-block__paused-text non-visible">Paused</span></span>
-    <span class="todo-block__paused"></span>
+    <span class="todo-block__timestamp">15:46 </span>
+    <span class="todo-block__paused"><span class="todo-block__paused-text non-visible">Paused</span></span>
   </div>
+  <div class="card-body">
   <p class="todo-block__text">${text.val()}</p>
   <textarea class="form-control non-visible todo-block__edit" aria-label="With textarea"></textarea>
   <div class="todo-block__buttons">
@@ -169,12 +182,21 @@ $('.buttons__button_add').click(function() {
         <button type="button" class="btn btn-danger todo-block__edit-button todo-block__button_cancle-edit">Cancle</button>
       </div>
     </div>
+    </div>
   </div>`);
 
   $('.todo-list').prepend(blockReturn);
 
   let timer = new Timer(60, blockReturn.find('.todo-block__timestamp'));
   timer.runTimer();
+
+  blockReturn.find('.todo-block__paused').on('click', function() {
+    if (!$(this).find('.todo-block__paused-text').hasClass('non-visible')) {
+      timer.runTimer();
+    } else {
+      timer.pauseTimer()
+    }
+  });
 
   fadeIn(blockReturn);
 

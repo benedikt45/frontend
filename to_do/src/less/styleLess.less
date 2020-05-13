@@ -1,13 +1,17 @@
 // "out": "../css/style.css", "compress": true
 @import "reset-css/less/reset";
 @import "flex-grid";
-@import "bootstrap/index";
+// @import "bootstrap/index";
 
 .wrapper {
   padding-top: 20px;
   max-width: 600px;
   border-radius: 5px;
   position: relative;
+}
+
+.btn {
+  padding: 5px 0;
 }
 
 .header {
@@ -30,6 +34,12 @@
   display: none;
 }
 
+.time-is-off {
+  color: #ed3c37;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 .buttons {
   .row-flex;
 
@@ -43,6 +53,8 @@
 
 .todo-block {
   margin: 40px 20px;
+  box-sizing: border-box;
+  overflow: hidden;
 
   &__header {
     .row-flex();
@@ -69,7 +81,7 @@
   &__paused-text {
     position: absolute;
     font-weight: bold;
-    left: -70px;
+    left: -60px;
     opacity: 0.5;
   }
 
@@ -77,6 +89,7 @@
     flex-basis: 8px;
     position: relative;
     cursor: pointer;
+    left: -20px;
 
     &::after,
     &::before {
@@ -105,6 +118,10 @@
   &__button {
     .col();
     .size(3);
+  }
+
+  &__button_delete {
+    transition: none;
   }
 
   &__button_correct {

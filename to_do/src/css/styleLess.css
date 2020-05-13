@@ -173,6 +173,9 @@ a {
   border-radius: 5px;
   position: relative;
 }
+.btn {
+  padding: 5px 0;
+}
 .header {
   position: relative;
 }
@@ -212,6 +215,7 @@ a {
 .todo-block {
   margin: 40px 20px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .todo-block__header {
   display: flex;
@@ -244,7 +248,7 @@ a {
 .todo-block__paused-text {
   position: absolute;
   font-weight: bold;
-  left: -70px;
+  left: -60px;
   opacity: 0.5;
 }
 .todo-block__paused {
@@ -281,6 +285,9 @@ a {
   margin-left: 15px;
   margin-right: 15px;
   width: calc(25% - 30px);
+}
+.todo-block__button_delete {
+  transition: none;
 }
 .todo-block__button_correct {
   box-sizing: border-box;
