@@ -9,7 +9,7 @@ let manager = {
   delete: 0
 };
 
-$(document).ready(addClickToBlock);//еуые 3
+$(document).ready(addClickToBlock);
 
 class Timer {
   constructor(timeFrom, el) {
