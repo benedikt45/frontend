@@ -23,17 +23,32 @@ class Timer {
     this.time--;
   }
 
+  moveToTop() {
+    this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
+    this.el.html('Time is off');
+    this.el.toggleClass('time-is-off');
+    let elemBack;
+
+    let p = new Promise((resolve, rejected) => {
+      fadeOut(this.el.closest('.todo-list__todo-block'));
+      resolve();
+    })
+
+    p.then(() => {
+      console.log('trans end')
+      //this.el.closest('.todo-list').prepend(this.el);
+    })
+    // this.el.closest('.todo-list').prepend(this.el.closest('.todo-list__todo-block').detach());
+  }
+
   runTimer() {
     this.startDate = Date.now();
     this.timerId = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time == 0) {
-        this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
-        this.el.html('Time is off');
-        this.el.toggleClass('time-is-off');
+      if (this.time == 55) {
+        this.moveToTop();
         clearInterval(this.timerId);
-        this.el.closest('.todo-list').prepend(this.el.closest('.todo-list__todo-block').detach());
       }
     }, 1000);
   }
@@ -75,10 +90,10 @@ $('.todo-list').on('click', '.todo-block__paused', function(e) {
 function fadeOut(el) {
   let handler = function() {
     el.addClass('non-visible');
-    el.remove();
     el.removeClass('fade-leave-active');
     el.removeClass('fade-leave-to');
     el.off('transitionend', handler);
+    return el.detach();
   };
 
   el.addClass('fade-leave');
@@ -89,7 +104,12 @@ function fadeOut(el) {
     el.removeClass('fade-leave');
   });
 
-  el.on('transitionend', handler);
+  let wait = new Promise((resolve, rejected) => {
+    el.on('transitionend', () => {
+      let detachElem = handler();
+      resolve(detachElem);
+    });
+  })
 }
 
 function fadeIn(el) {
