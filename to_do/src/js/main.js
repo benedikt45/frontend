@@ -23,17 +23,29 @@ class Timer {
     this.time--;
   }
 
+  moveToTop() {
+    this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
+    this.el.html('Time is off');
+    this.el.toggleClass('time-is-off');
+
+    fadeOut(this.el.closest('.todo-list__todo-block'))
+      .then((elem) => {
+        return elem;
+      })
+      .then((elem) => {
+        //elem.toggleClass('non-visible').appendTo($('.todo-list'));
+        //fadeIn(elem);
+      })
+  }
+
   runTimer() {
     this.startDate = Date.now();
     this.timerId = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time == 57) {
-        this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
-        this.el.html('Time is off');
-        this.el.toggleClass('time-is-off');
+      if (this.time == 59) {
+        this.moveToTop();
         clearInterval(this.timerId);
-        this.el.closest('.todo-list').prepend(this.el.closest('.todo-list__todo-block').detach());
       }
     }, 1000);
   }
@@ -42,11 +54,116 @@ class Timer {
     clearInterval(this.timerId);
   }
 
-
   returnTime() {
     return this.time;
   }
 }
+
+//А сделал тут промисы ддя того, что когда исчезает элемент в фйэдаут и срабатывает
+//трансэнд - он сразу же срабатывает и на фэйдин
+// фйэдаут -> асинхронно включает трансэнд и включаем классы по трансу (т.к. renderAnim асинхронная)
+//Пока транс идет - ждем, как только заканчивается - убираем классы
+//Тут же включает фэйдин свои классы и трансэнд и вот тут трансэнд срабатывает уже в фэйдин,
+//т.к. работает присвоение класса и трансэнд асинхронно
+//Что бы это избежать - включаю что бы трансэнд включился только после присвоения классов
+
+// function fadeIn(el) {
+//   return new Promise((resolve, rejected) => {
+//     el.addClass('fade-enter');
+//     renderAnim(function() {
+//       el.addClass('fade-enter-active');
+//       el.addClass('fade-enter-to');
+//       el.removeClass('fade-enter');
+//       resolve();
+//     });
+//   }).then(() => {
+//     return new Promise((resolve, reject) => {
+//       let handler = function() {
+//         el.removeClass('fade-enter-active');
+//         el.removeClass('fade-enter-to');
+//         el.off('transitionend', handler);
+//         resolve();
+//       };
+//       el.on('transitionend', handler)
+//     })
+//   });
+// }
+
+// function fadeOut(el) {
+//   el.addClass('fade-leave');
+//   return new Promise((resolve, reject) => {
+//     renderAnim(function() {
+//       el.addClass('fade-leave-active');
+//       el.addClass('fade-leave-to');
+//       el.removeClass('fade-leave');
+//       resolve();
+//     });
+//   }).then(() => {
+//     return new Promise((resolve, reject) => {
+//       let handler = function(e) {
+//         if (e.target == el[0]) {
+//           el.addClass('non-visible');
+//           el.removeClass('fade-leave-active');
+//           el.removeClass('fade-leave-to');
+//           el.off('transitionend', handler);
+//           resolve(el.detach());
+//         }
+//       };
+//       el.on('transitionend', handler);
+//     })
+//   })
+// }
+
+function fadeIn(el) {
+  return new Promise((resolve, rejected) => {
+    el.addClass('fade-enter');
+    renderAnim(function() {
+      console.log('in start');
+      el.addClass('fade-enter-active');
+      el.addClass('fade-enter-to');
+      el.removeClass('fade-enter');
+      resolve();
+    });
+  }).then(() => {
+    let handler = function(e) {
+      console.log('in trans end');
+      el.removeClass('fade-enter-active');
+      el.removeClass('fade-enter-to');
+      el.off('transitionend', handler);
+
+    };
+    el.on('transitionend', handler)
+  })
+}
+
+
+function fadeOut(el) {
+  return new Promise((resolve, reject) => {
+    el.addClass('fade-leave');
+    renderAnim(function() {
+      console.log('out start');
+      el.addClass('fade-leave-active');
+      el.addClass('fade-leave-to');
+      el.removeClass('fade-leave');
+      //resolve();
+    })
+    // }).then(() => {
+    // return new Promise((resolve, reject) => {
+    let handler = function(e) {
+      if (e.target == el[0]) {
+        console.log('out trans end');
+        el.addClass('non-visible');
+        el.removeClass('fade-leave-active');
+        el.removeClass('fade-leave-to');
+        el.off('transitionend', handler);
+        resolve(el.detach());
+      }
+    };
+    el.on('transitionend', handler);
+  })
+  //})
+}
+
 
 $('.todo-list').on('click', '.todo-block__button_save-edit', function() {
   renderButtons(this, {
@@ -71,44 +188,6 @@ $('.todo-list').on('click', '.todo-block__button_correct', function() {
 $('.todo-list').on('click', '.todo-block__paused', function(e) {
   $(this).closest('.todo-block__header').find('.todo-block__paused-text').toggleClass('non-visible')
 });
-
-function fadeOut(el) {
-  let handler = function() {
-    el.addClass('non-visible');
-    el.remove();
-    el.removeClass('fade-leave-active');
-    el.removeClass('fade-leave-to');
-    el.off('transitionend', handler);
-  };
-
-  el.addClass('fade-leave');
-
-  renderAnim(function() {
-    el.addClass('fade-leave-active');
-    el.addClass('fade-leave-to');
-    el.removeClass('fade-leave');
-  });
-
-  el.on('transitionend', handler);
-}
-
-function fadeIn(el) {
-  let handler = function() {
-    el.removeClass('fade-enter-active');
-    el.removeClass('fade-enter-to');
-    el.off('transitionend', handler);
-  };
-
-  el.addClass('fade-enter');
-
-  renderAnim(function() {
-    el.addClass('fade-enter-active');
-    el.addClass('fade-enter-to');
-    el.removeClass('fade-enter');
-  });
-
-  el.on('transitionend', handler);
-}
 
 function renderAnim(callback) {
   window.requestAnimationFrame(function() {
@@ -137,6 +216,9 @@ function renderButtons(context, changeObj) {
 }
 
 function addClickToBlock() {
+  $('.header__todo-comment').val('fsdf');
+  $('.header__todo-input').html('333');
+
   $('.todo-list').on('click', '.todo-block__button_delete', function() {
 
     fadeOut($(this).closest('.todo-block'));
