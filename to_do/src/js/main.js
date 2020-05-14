@@ -28,11 +28,10 @@ class Timer {
     this.el.html('Time is off');
     this.el.toggleClass('time-is-off');
 
+    //this.el.closest('.todo-block').appendTo($('.todo-list'));
+
     fadeOut(this.el.closest('.todo-list__todo-block')).then((elem) => {
-      console.log(elem);
-      console.log($('.todo-list'));
-      elem.toggleClass('non-visible');
-      $('.todo-list').prepend(elem);
+      elem.toggleClass('non-visible').appendTo($('.todo-list'));
     })
   }
 
@@ -62,10 +61,11 @@ function fadeOut(el) {
   return new Promise((resolve, rejected) => {
     let handler = function() {
       el.addClass('non-visible');
+      let retElem = el.detach();
       el.removeClass('fade-leave-active');
       el.removeClass('fade-leave-to');
       el.off('transitionend', handler);
-      return el.detach();
+      return retElem;
     };
 
     el.addClass('fade-leave');
