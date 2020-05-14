@@ -28,7 +28,7 @@ class Timer {
     this.timerId = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time == 0) {
+      if (this.time == 57) {
         this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
         this.el.html('Time is off');
         this.el.toggleClass('time-is-off');
