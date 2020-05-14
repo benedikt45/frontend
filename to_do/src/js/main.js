@@ -27,18 +27,13 @@ class Timer {
     this.el.closest('.todo-block__header').find('.todo-block__paused').toggleClass('non-visible');
     this.el.html('Time is off');
     this.el.toggleClass('time-is-off');
-    let elemBack;
 
-    let p = new Promise((resolve, rejected) => {
-      fadeOut(this.el.closest('.todo-list__todo-block'));
-      resolve();
+    fadeOut(this.el.closest('.todo-list__todo-block')).then((elem) => {
+      console.log(elem);
+      console.log($('.todo-list'));
+      elem.toggleClass('non-visible');
+      $('.todo-list').prepend(elem);
     })
-
-    p.then(() => {
-      console.log('trans end')
-      //this.el.closest('.todo-list').prepend(this.el);
-    })
-    // this.el.closest('.todo-list').prepend(this.el.closest('.todo-list__todo-block').detach());
   }
 
   runTimer() {
@@ -61,6 +56,31 @@ class Timer {
   returnTime() {
     return this.time;
   }
+}
+
+function fadeOut(el) {
+  return new Promise((resolve, rejected) => {
+    let handler = function() {
+      el.addClass('non-visible');
+      el.removeClass('fade-leave-active');
+      el.removeClass('fade-leave-to');
+      el.off('transitionend', handler);
+      return el.detach();
+    };
+
+    el.addClass('fade-leave');
+
+    renderAnim(function() {
+      el.addClass('fade-leave-active');
+      el.addClass('fade-leave-to');
+      el.removeClass('fade-leave');
+    });
+
+
+    el.on('transitionend', () => {
+      resolve(handler());
+    });
+  })
 }
 
 $('.todo-list').on('click', '.todo-block__button_save-edit', function() {
@@ -86,31 +106,6 @@ $('.todo-list').on('click', '.todo-block__button_correct', function() {
 $('.todo-list').on('click', '.todo-block__paused', function(e) {
   $(this).closest('.todo-block__header').find('.todo-block__paused-text').toggleClass('non-visible')
 });
-
-function fadeOut(el) {
-  let handler = function() {
-    el.addClass('non-visible');
-    el.removeClass('fade-leave-active');
-    el.removeClass('fade-leave-to');
-    el.off('transitionend', handler);
-    return el.detach();
-  };
-
-  el.addClass('fade-leave');
-
-  renderAnim(function() {
-    el.addClass('fade-leave-active');
-    el.addClass('fade-leave-to');
-    el.removeClass('fade-leave');
-  });
-
-  let wait = new Promise((resolve, rejected) => {
-    el.on('transitionend', () => {
-      let detachElem = handler();
-      resolve(detachElem);
-    });
-  })
-}
 
 function fadeIn(el) {
   let handler = function() {
