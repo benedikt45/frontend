@@ -185,6 +185,7 @@ a {
   display: block;
   width: 100%;
   height: 40px;
+  box-sizing: border-box;
 }
 .header__button-block {
   margin-top: 20px;

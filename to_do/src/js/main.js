@@ -28,10 +28,11 @@ class Timer {
     this.el.html('Time is off');
     this.el.toggleClass('time-is-off');
 
-    //this.el.closest('.todo-block').appendTo($('.todo-list'));
-
     fadeOut(this.el.closest('.todo-list__todo-block')).then((elem) => {
+      return elem;
+    }).then((elem) => {
       elem.toggleClass('non-visible').appendTo($('.todo-list'));
+      fadeIn(elem);
     })
   }
 
@@ -40,7 +41,7 @@ class Timer {
     this.timerId = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time == 55) {
+      if (this.time == 50) {
         this.moveToTop();
         clearInterval(this.timerId);
       }
@@ -51,10 +52,30 @@ class Timer {
     clearInterval(this.timerId);
   }
 
-
   returnTime() {
     return this.time;
   }
+}
+
+function fadeIn(el) {
+  let handler = function() {
+    el.removeClass('fade-enter-active');
+    el.removeClass('fade-enter-to');
+    el.off('transitionend', handler);
+  };
+
+  el.addClass('fade-enter');
+
+  new Promise((resolve, rejected) => {
+    renderAnim(function() {
+      el.addClass('fade-enter-active');
+      el.addClass('fade-enter-to');
+      el.removeClass('fade-enter');
+      resolve();
+    });
+  }).then(() => {
+    el.on('transitionend', handler)
+  });
 }
 
 function fadeOut(el) {
@@ -65,7 +86,7 @@ function fadeOut(el) {
       el.removeClass('fade-leave-active');
       el.removeClass('fade-leave-to');
       el.off('transitionend', handler);
-      return retElem;
+      resolve(retElem);
     };
 
     el.addClass('fade-leave');
@@ -75,11 +96,7 @@ function fadeOut(el) {
       el.addClass('fade-leave-to');
       el.removeClass('fade-leave');
     });
-
-
-    el.on('transitionend', () => {
-      resolve(handler());
-    });
+    el.on('transitionend', handler);
   })
 }
 
@@ -106,24 +123,6 @@ $('.todo-list').on('click', '.todo-block__button_correct', function() {
 $('.todo-list').on('click', '.todo-block__paused', function(e) {
   $(this).closest('.todo-block__header').find('.todo-block__paused-text').toggleClass('non-visible')
 });
-
-function fadeIn(el) {
-  let handler = function() {
-    el.removeClass('fade-enter-active');
-    el.removeClass('fade-enter-to');
-    el.off('transitionend', handler);
-  };
-
-  el.addClass('fade-enter');
-
-  renderAnim(function() {
-    el.addClass('fade-enter-active');
-    el.addClass('fade-enter-to');
-    el.removeClass('fade-enter');
-  });
-
-  el.on('transitionend', handler);
-}
 
 function renderAnim(callback) {
   window.requestAnimationFrame(function() {
