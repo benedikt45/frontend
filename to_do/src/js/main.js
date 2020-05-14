@@ -33,8 +33,8 @@ class Timer {
         return elem;
       })
       .then((elem) => {
-        //elem.toggleClass('non-visible').appendTo($('.todo-list'));
-        //fadeIn(elem);
+        elem.toggleClass('non-visible').appendTo($('.todo-list'));
+        fadeIn(elem);
       })
   }
 
@@ -145,23 +145,23 @@ function fadeOut(el) {
       el.addClass('fade-leave-active');
       el.addClass('fade-leave-to');
       el.removeClass('fade-leave');
-      //resolve();
+      resolve();
     })
-    // }).then(() => {
-    // return new Promise((resolve, reject) => {
-    let handler = function(e) {
-      if (e.target == el[0]) {
-        console.log('out trans end');
-        el.addClass('non-visible');
-        el.removeClass('fade-leave-active');
-        el.removeClass('fade-leave-to');
-        el.off('transitionend', handler);
-        resolve(el.detach());
-      }
-    };
-    el.on('transitionend', handler);
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      let handler = function(e) {
+        if (e.target == el[0]) {
+          console.log('out trans end');
+          el.addClass('non-visible');
+          el.removeClass('fade-leave-active');
+          el.removeClass('fade-leave-to');
+          el.off('transitionend', handler);
+          resolve(el.detach());
+        }
+      };
+      el.on('transitionend', handler);
+    })
   })
-  //})
 }
 
 
