@@ -287,9 +287,6 @@ a {
   margin-right: 15px;
   width: calc(25% - 30px);
 }
-.todo-block__button_delete {
-  transition: none;
-}
 .todo-block__button_correct {
   box-sizing: border-box;
   word-wrap: break-word;
