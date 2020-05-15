@@ -1,5 +1,6 @@
-import $ from "jquery";
+import $ from 'jquery';
 //const $ = require('jquery');
+const prop = require('core-js/es/promise');
 
 let text = $('.header__todo-input');
 let comment = $('.header__todo-comment');
@@ -43,7 +44,7 @@ class Timer {
     this.timerId = setInterval(() => {
       this.tick();
       this.el.html(this.time);
-      if (this.time == 59) {
+      if (this.time == 55) {
         this.moveToTop();
         clearInterval(this.timerId);
       }
@@ -137,8 +138,33 @@ function fadeIn(el) {
 }
 
 
-function fadeOut(el) {
-  return new Promise((resolve, reject) => {
+async function fadeOut(el) {
+  // return new Promise((resolve, reject) => {
+  //   el.addClass('fade-leave');
+  //   renderAnim(function() {
+  //     console.log('out start');
+  //     el.addClass('fade-leave-active');
+  //     el.addClass('fade-leave-to');
+  //     el.removeClass('fade-leave');
+  //     resolve();
+  //   })
+  // }).then(() => {
+  //   return new Promise((resolve, reject) => {
+  //     let handler = function(e) {
+  //       if (e.target == el[0]) {
+  //         console.log('out trans end');
+  //         el.addClass('non-visible');
+  //         el.removeClass('fade-leave-active');
+  //         el.removeClass('fade-leave-to');
+  //         el.off('transitionend', handler);
+  //         resolve(el.detach());
+  //       }
+  //     };
+  //     el.on('transitionend', handler);
+  //   })
+  // })
+
+  await new Promise((resolve, reject) => {
     el.addClass('fade-leave');
     renderAnim(function() {
       console.log('out start');
@@ -147,20 +173,20 @@ function fadeOut(el) {
       el.removeClass('fade-leave');
       resolve();
     })
-  }).then(() => {
-    return new Promise((resolve, reject) => {
-      let handler = function(e) {
-        if (e.target == el[0]) {
-          console.log('out trans end');
-          el.addClass('non-visible');
-          el.removeClass('fade-leave-active');
-          el.removeClass('fade-leave-to');
-          el.off('transitionend', handler);
-          resolve(el.detach());
-        }
-      };
-      el.on('transitionend', handler);
-    })
+  })
+
+  return await new Promise((resolve, reject) => {
+    let handler = function(e) {
+      if (e.target == el[0]) {
+        console.log('out trans end');
+        el.addClass('non-visible');
+        el.removeClass('fade-leave-active');
+        el.removeClass('fade-leave-to');
+        el.off('transitionend', handler);
+        resolve(el.detach());
+      }
+    };
+    el.on('transitionend', handler);
   })
 }
 
@@ -267,6 +293,9 @@ $('.buttons__button_add').click(function() {
     </div>
   </div>`);
 
+  blockReturn.find('.todo-block__paused-text').on('click', (e) => {
+    e.stopPropagation();
+  });
   $('.todo-list').prepend(blockReturn);
 
   let timer = new Timer(60, blockReturn.find('.todo-block__timestamp'));

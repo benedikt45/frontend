@@ -251,6 +251,7 @@ a {
   font-weight: bold;
   left: -60px;
   opacity: 0.5;
+  cursor: text;
 }
 .todo-block__paused {
   flex-basis: 8px;

@@ -94,7 +94,7 @@ function clean() {
   return del([conf.dest + '/*']);
 }
 
-//module.exports.sass = scssToCss;
+module.exports.js = js;
 
 module.exports.watch = function() {
   browserSync.init({
